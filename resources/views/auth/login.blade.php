@@ -1,4 +1,4 @@
-<x-guest-layout>
+{{-- <x-guest-layout>
     <!-- Card Utama Pembungkus Proporsional di Tengah Layar -->
     <div class="w-full max-w-4xl bg-white rounded-3xl shadow-2xl shadow-[#3368A0]/10 border border-[#C8DFDB]/60 overflow-hidden flex flex-col md:flex-row transition-all duration-300">
         
@@ -211,4 +211,18 @@
         </div>
 
     </div>
-</x-guest-layout>
+</x-guest-layout> --}}
+
+@extends('layouts.app')
+@section('content')
+<div class="card" style="max-width:360px;margin:60px auto">
+    <h2 style="margin-top:0">PesatCare</h2>
+    <p class="muted">Sistem Pencatatan UKS - SMK Informatika Pesat</p>
+    <form method="POST" action="{{ route('login.attempt') }}">
+        @csrf
+        <label>Username<br><input name="username" value="{{ old('username') }}" required autofocus style="width:100%"></label><br>
+        <label>Password<br><input type="password" name="password" required style="width:100%"></label><br>
+        <button class="btn" style="width:100%">Masuk</button>
+    </form>
+</div>
+@endsection
