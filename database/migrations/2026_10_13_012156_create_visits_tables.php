@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
@@ -41,9 +40,6 @@ return new class extends Migration {
             $t->index('triage_level');
             $t->index(['triage_status', 'triage_deadline']);
         });
-
-        // Tepat satu pasien: siswa XOR guru
-        DB::statement('ALTER TABLE visits ADD CONSTRAINT chk_visits_one_patient CHECK ((student_id IS NULL) <> (teacher_id IS NULL))');
 
         Schema::create('visit_diseases', function (Blueprint $t) {
             $t->id();
