@@ -4,13 +4,14 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Portal\GuruPortalController;
 use App\Http\Controllers\Portal\MuridPortalController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function (Request $request) {
     if ($request->user()) {
         return redirect()->route($request->user()->homeRoute());
     }
+
     return redirect()->route('login');
 })->name('home');
 
@@ -19,6 +20,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
 });
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+Route::get('/dashboard', function (Request $request) {
+    return redirect()->route($request->user()->homeRoute());
+})->middleware('auth')->name('dashboard');
 
 /* ======================= ADMIN ======================= */
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {

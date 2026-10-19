@@ -22,6 +22,13 @@ export default {
                     dark: '#275382',
                     soft: '#EEF6F8',
                 },
+                pesat: {
+                    sidebar: '#2C5EAD', // dark blue for sidebar
+                    blue: '#1591DC',    // medium blue for gradient
+                    light: '#C4E2F5',   // greyish blue
+                    cream: '#FAFBFD',   // cream / primary content bg
+                    dark: '#244e91',
+                },
             },
         },
     },

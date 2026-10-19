@@ -2,39 +2,93 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    public function showLogin() { return view('auth.login'); }
-
-    public function login(Request $request)
+    public function showLogin(): View
     {
-        $data = $request->validate(['username' => 'required|string', 'password' => 'required|string']);
-        $key = Str::lower($data['username']) . '|' . $request->ip();
+        return view('auth.login');
+    }
 
-        if (RateLimiter::tooManyAttempts($key, 5)) {
+    public function login(Request $request): RedirectResponse
+    {
+        $loginInput = $request->input('login')
+            ?? $request->input('email')
+            ?? $request->input('username');
+
+        $identifier = trim((string) $loginInput);
+        $password = (string) $request->input('password');
+
+        if ($identifier === '' || $password === '') {
+            $msg = 'Username / E-mail / NIP dan kata sandi wajib diisi.';
             throw ValidationException::withMessages([
-                'username' => 'Terlalu banyak percobaan. Coba lagi dalam ' . RateLimiter::availableIn($key) . ' detik.',
+                'login' => $msg,
+                'email' => $msg,
+                'username' => $msg,
             ]);
         }
 
-        if (! Auth::attempt(['username' => $data['username'], 'password' => $data['password'], 'status' => 'active'])) {
-            RateLimiter::hit($key, 60);
-            throw ValidationException::withMessages(['username' => 'Username atau password salah.']);
+        $throttleKey = Str::lower($identifier).'|'.$request->ip();
+
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+            $msg = 'Terlalu banyak percobaan masuk. Coba lagi dalam '.$seconds.' detik.';
+            throw ValidationException::withMessages([
+                'login' => $msg,
+                'email' => $msg,
+                'username' => $msg,
+            ]);
         }
 
-        RateLimiter::clear($key);
+        // Cari user berdasarkan username, email, NIP guru, atau NIS murid
+        $user = User::query()
+            ->where('username', $identifier)
+            ->orWhere('email', $identifier)
+            ->orWhereHas('teacher', fn ($q) => $q->where('nip', $identifier))
+            ->orWhereHas('student', fn ($q) => $q->where('nis', $identifier))
+            ->first();
+
+        if (! $user || ! Hash::check($password, $user->password)) {
+            RateLimiter::hit($throttleKey, 60);
+
+            $msg = 'Username / E-mail / NIP atau kata sandi salah.';
+            throw ValidationException::withMessages([
+                'login' => $msg,
+                'email' => $msg,
+                'username' => $msg,
+            ]);
+        }
+
+        if (! $user->isActive()) {
+            RateLimiter::hit($throttleKey, 60);
+
+            $msg = 'Akun Anda dinonaktifkan. Silakan hubungi admin UKS.';
+            throw ValidationException::withMessages([
+                'login' => $msg,
+                'email' => $msg,
+                'username' => $msg,
+            ]);
+        }
+
+        RateLimiter::clear($throttleKey);
+
+        Auth::login($user, $request->boolean('remember'));
+
         $request->session()->regenerate();
 
-        return redirect()->route(Auth::user()->homeRoute());
+        return redirect()->intended(route($user->homeRoute()));
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();
