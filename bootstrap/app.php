@@ -15,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\EnsureRole::class,
         ]);
 
+        $middleware->web(append: [
+            \App\Http\Middleware\SetLocale::class,
+        ]);
+
         // Belum login -> ke halaman login
         $middleware->redirectGuestsTo(fn () => route('login'));
 

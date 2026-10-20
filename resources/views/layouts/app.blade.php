@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,92 +21,93 @@
 @php
     $user = auth()->user();
     $role = $user->role ?? 'admin';
+    $currentLang = strtoupper(app()->getLocale());
 
-    // Menu list per role with icons and active patterns
+    // Menu list per role dengan i18n
     $menus = [
         'admin' => [
             [
                 'route' => 'admin.dashboard',
                 'active' => 'admin.dashboard',
-                'label' => 'Dashboard',
+                'label' => __('Dashboard'),
                 'icon' => 'dashboard',
             ],
             [
                 'route' => 'admin.visits.index',
                 'active' => 'admin.visits.*',
-                'label' => 'Kunjungan',
+                'label' => __('Kunjungan'),
                 'icon' => 'stethoscope',
             ],
             [
                 'route' => 'admin.diseases.index',
                 'active' => 'admin.diseases.*',
-                'label' => 'Penyakit',
+                'label' => __('Penyakit'),
                 'icon' => 'activity',
             ],
             [
                 'route' => 'admin.medicines.index',
                 'active' => 'admin.medicines.*',
-                'label' => 'Obat',
+                'label' => __('Obat'),
                 'icon' => 'pill',
             ],
             [
                 'route' => 'admin.screenings.index',
                 'active' => 'admin.screenings.*',
-                'label' => 'Screening',
+                'label' => __('Screening'),
                 'icon' => 'clipboard',
             ],
             [
                 'route' => 'admin.teacher-checks.index',
                 'active' => 'admin.teacher-checks.*',
-                'label' => 'Periksa Guru',
+                'label' => __('Periksa Guru'),
                 'icon' => 'user-check',
             ],
             [
                 'route' => 'admin.certificates.index',
                 'active' => 'admin.certificates.*',
-                'label' => 'Surat',
+                'label' => __('Surat'),
                 'icon' => 'file-text',
             ],
             [
                 'route' => 'admin.reports',
                 'active' => 'admin.reports*',
-                'label' => 'Rekap',
+                'label' => __('Rekap'),
                 'icon' => 'chart',
             ],
             [
                 'route' => 'admin.triage-rules.index',
                 'active' => 'admin.triage-rules.*',
-                'label' => 'Aturan Triase',
+                'label' => __('Aturan Triase'),
                 'icon' => 'shield',
             ],
             [
                 'route' => 'admin.classes.index',
                 'active' => 'admin.classes.*',
-                'label' => 'Kelas',
+                'label' => __('Kelas'),
                 'icon' => 'academic',
             ],
             [
                 'route' => 'admin.units.index',
                 'active' => 'admin.units.*',
-                'label' => 'Unit',
+                'label' => __('Unit'),
                 'icon' => 'building',
             ],
             [
                 'route' => 'admin.students.index',
                 'active' => 'admin.students.*',
-                'label' => 'Siswa',
+                'label' => __('Siswa'),
                 'icon' => 'users',
             ],
             [
                 'route' => 'admin.teachers.index',
                 'active' => 'admin.teachers.*',
-                'label' => 'Guru',
+                'label' => __('Guru'),
                 'icon' => 'id-card',
             ],
             [
                 'route' => 'admin.users.index',
                 'active' => 'admin.users.*',
-                'label' => 'Akun',
+                'label' => __('Akun'),
                 'icon' => 'settings',
             ],
         ],
@@ -114,25 +115,25 @@
             [
                 'route' => 'guru.dashboard',
                 'active' => 'guru.dashboard',
-                'label' => 'Dashboard',
+                'label' => __('Dashboard'),
                 'icon' => 'dashboard',
             ],
             [
                 'route' => 'guru.profile',
                 'active' => 'guru.profile',
-                'label' => 'Profil',
+                'label' => __('Profil'),
                 'icon' => 'user',
             ],
             [
                 'route' => 'guru.health-checks',
                 'active' => 'guru.health-checks*',
-                'label' => 'Pemeriksaan',
+                'label' => __('Pemeriksaan'),
                 'icon' => 'stethoscope',
             ],
             [
                 'route' => 'guru.visits',
                 'active' => 'guru.visits*',
-                'label' => 'Kunjungan',
+                'label' => __('Kunjungan'),
                 'icon' => 'activity',
             ],
         ],
@@ -140,31 +141,31 @@
             [
                 'route' => 'murid.dashboard',
                 'active' => 'murid.dashboard',
-                'label' => 'Dashboard',
+                'label' => __('Dashboard'),
                 'icon' => 'dashboard',
             ],
             [
                 'route' => 'murid.profile',
                 'active' => 'murid.profile',
-                'label' => 'Profil',
+                'label' => __('Profil'),
                 'icon' => 'user',
             ],
             [
                 'route' => 'murid.visits',
                 'active' => 'murid.visits*',
-                'label' => 'Kunjungan',
+                'label' => __('Kunjungan'),
                 'icon' => 'activity',
             ],
             [
                 'route' => 'murid.screenings',
                 'active' => 'murid.screenings*',
-                'label' => 'Screening',
+                'label' => __('Screening'),
                 'icon' => 'clipboard',
             ],
             [
                 'route' => 'murid.certificates',
                 'active' => 'murid.certificates*',
-                'label' => 'Surat',
+                'label' => __('Surat'),
                 'icon' => 'file-text',
             ],
         ],
@@ -180,16 +181,16 @@
     <!-- ========================================================= -->
     <aside class="hidden lg:flex lg:flex-col lg:w-60 flex-shrink-0 bg-[#2C5EAD] text-white select-none">
 
-    <!-- Logo Section (enlarged by 50%) -->
-    <div class="flex items-center justify-center px-4">
-        <img
-            src="{{ asset('assets/img/pesatcare.svg') }}"
-            alt="PesatCare"
-            class="w-[120px] h-[120px] object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
-        >
-    </div>
+        <!-- Logo Section -->
+        <div class="flex items-center justify-center px-4">
+            <img
+                src="{{ asset('assets/img/pesatcare.svg') }}"
+                alt="PesatCare"
+                class="w-[120px] h-[120px] object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+            >
+        </div>
 
-        <!-- Navigation Links List (no scroll indicator) -->
+        <!-- Navigation Links List -->
         <div class="flex-1 overflow-y-auto overflow-x-hidden pl-4 pr-0 pt-6 pb-6 space-y-1 no-scrollbar">
             @foreach($userMenus as $m)
                 @php
@@ -202,11 +203,11 @@
             @endforeach
         </div>
 
-        <!-- Sidebar Footer: Account beside Log Out button -->
+        <!-- Sidebar Footer -->
         <div class="px-4 py-4 border-t border-white/10 flex items-center justify-between gap-2.5">
             <a @if(Route::has('profile.edit')) href="{{ route('profile.edit') }}" @endif
                class="flex items-center gap-2.5 min-w-0 group hover:opacity-90 transition p-1 rounded-xl"
-               title="Profil Saya">
+               title="{{ __('Profil Saya') }}">
                 <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#1591DC] to-[#C4E2F5] text-white font-bold text-sm flex items-center justify-center ring-2 ring-white/20 shadow-sm flex-shrink-0">
                     {{ strtoupper(substr($user->name, 0, 1)) }}
                 </div>
@@ -219,7 +220,7 @@
             <form method="POST" action="{{ route('logout') }}" class="flex-shrink-0">
                 @csrf
                 <button type="submit"
-                        title="Log Out"
+                        title="{{ __('Keluar') }}"
                         class="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-150 flex items-center justify-center">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -284,7 +285,7 @@
                 @endforeach
             </div>
 
-            <!-- Mobile Footer: Account beside Log Out -->
+            <!-- Mobile Footer -->
             <div class="p-4 border-t border-white/10 flex items-center justify-between gap-2.5">
                 <div class="flex items-center gap-2.5 min-w-0">
                     <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#1591DC] to-[#C4E2F5] text-white font-bold text-sm flex items-center justify-center ring-2 ring-white/20 shadow-sm flex-shrink-0">
@@ -298,7 +299,7 @@
 
                 <form method="POST" action="{{ route('logout') }}" class="flex-shrink-0">
                     @csrf
-                    <button type="submit" title="Log Out" class="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition">
+                    <button type="submit" title="{{ __('Keluar') }}" class="p-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition">
                         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                             <polyline points="16 17 21 12 16 7"></polyline>
@@ -311,14 +312,14 @@
     </div>
 
     <!-- ========================================================= -->
-    <!-- MAIN CONTENT CARD / WORKSPACE (#FAFBFD / #FFFFFF)        -->
+    <!-- MAIN CONTENT CARD / WORKSPACE                            -->
     <!-- ========================================================= -->
     <div class="flex-1 flex flex-col h-full overflow-hidden bg-[#FAFBFD] relative">
 
         <!-- ===================================================== -->
         <!-- TOP NAVBAR (HEADER)                                   -->
         <!-- ===================================================== -->
-        <header class="flex-shrink-0 h-20 px-6 sm:px-10 border-b border-slate-100/80 flex items-center justify-between bg-white/80 backdrop-blur-md z-20 overflow-hidden">
+        <header class="flex-shrink-0 h-20 px-6 sm:px-10 border-b border-slate-100/80 flex items-center justify-between bg-white/80 backdrop-blur-md z-20">
             
             <!-- Left: Mobile Toggle & Search Bar -->
             <div class="flex items-center gap-3 sm:gap-6 flex-1 max-w-xl">
@@ -332,10 +333,10 @@
                     </svg>
                 </button>
 
-                <!-- Pill Search Bar with icon on right matching reference photo -->
+                <!-- Pill Search Bar -->
                 <div class="relative w-full max-w-xs sm:max-w-md">
                     <input type="text"
-                           placeholder="Search"
+                           placeholder="{{ __('Cari...') }}"
                            class="w-full pl-5 pr-10 py-2.5 bg-slate-100/90 hover:bg-slate-100 focus:bg-white border border-transparent focus:border-[#1591DC] rounded-full text-sm text-neutral-800 placeholder-neutral-400 focus:outline-none focus:ring-4 focus:ring-[#C4E2F5]/50 transition-all duration-150" />
                     <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-neutral-400">
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -346,21 +347,50 @@
                 </div>
             </div>
 
-            <!-- Right: School Badge & Quick Icons -->
+            <!-- Right: Language Switcher Dropdown & Quick Icons -->
             <div class="flex items-center gap-2.5 sm:gap-3.5 flex-shrink-0">
                 
-                <!-- Language / School Unit Pill -->
-                <div class="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-neutral-700 hover:bg-[#C4E2F5]/40 hover:text-[#2C5EAD] transition cursor-pointer text-xs font-semibold">
-                    <span>ENG</span>
-                    <svg class="w-3.5 h-3.5 text-neutral-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
+                <!-- Language Selector Dropdown -->
+                <div class="hidden md:relative md:block" x-data="{ langOpen: false }">
+                    <button @click="langOpen = !langOpen" 
+                            @click.away="langOpen = false"
+                            type="button" 
+                            class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-neutral-700 hover:bg-[#C4E2F5]/40 hover:text-[#2C5EAD] transition cursor-pointer text-xs font-semibold focus:outline-none">
+                        <span>{{ $currentLang }}</span>
+                        <svg class="w-3.5 h-3.5 text-neutral-400 transition-transform duration-200" :class="{ 'rotate-180': langOpen }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown Options -->
+                    <div x-show="langOpen" 
+                         x-cloak
+                         x-transition:enter="transition ease-out duration-100"
+                         x-transition:enter-start="opacity-0 scale-95"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-75"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-95"
+                         class="absolute right-0 mt-2 w-32 bg-white rounded-2xl shadow-xl border border-slate-100 py-1.5 z-50 text-xs font-medium">
+                        <a href="{{ route('lang.switch', 'en') }}" class="flex items-center justify-between px-3.5 py-2 hover:bg-slate-50 text-neutral-700 hover:text-[#2C5EAD] transition {{ app()->getLocale() === 'en' ? 'font-bold text-[#2C5EAD]' : '' }}">
+                            <span>English</span>
+                            @if(app()->getLocale() === 'en')
+                                <span class="w-1.5 h-1.5 rounded-full bg-[#1591DC]"></span>
+                            @endif
+                        </a>
+                        <a href="{{ route('lang.switch', 'id') }}" class="flex items-center justify-between px-3.5 py-2 hover:bg-slate-50 text-neutral-700 hover:text-[#2C5EAD] transition {{ app()->getLocale() === 'id' ? 'font-bold text-[#2C5EAD]' : '' }}">
+                            <span>Indonesia</span>
+                            @if(app()->getLocale() === 'id')
+                                <span class="w-1.5 h-1.5 rounded-full bg-[#1591DC]"></span>
+                            @endif
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Messages Quick Button -->
                 <button type="button"
                         class="p-2.5 rounded-2xl bg-slate-100 hover:bg-[#C4E2F5]/40 text-neutral-700 hover:text-[#2C5EAD] transition focus:outline-none relative"
-                        title="Pesan">
+                        title="{{ __('Pesan') }}">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
@@ -370,7 +400,7 @@
                 <!-- Notifications Button with Badge -->
                 <button type="button"
                         class="p-2.5 rounded-2xl bg-slate-100 hover:bg-[#C4E2F5]/40 text-neutral-700 hover:text-[#2C5EAD] transition focus:outline-none relative"
-                        title="Notifikasi">
+                        title="{{ __('Notifikasi') }}">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
@@ -408,7 +438,7 @@
                             <line x1="12" y1="8" x2="12" y2="12"></line>
                             <line x1="12" y1="16" x2="12.01" y2="16"></line>
                         </svg>
-                        <span>Periksa kesalahan berikut:</span>
+                        <span>{{ __('Periksa kesalahan berikut:') }}</span>
                     </div>
                     <ul class="list-disc list-inside space-y-1 text-xs text-rose-700 pl-2">
                         @foreach($errors->all() as $e)
@@ -418,7 +448,7 @@
                 </div>
             @endif
 
-            <!-- Child Page Content (tidy container with max-w and spacing) -->
+            <!-- Child Page Content -->
             <div class="w-full max-w-7xl mx-auto space-y-6">
                 @yield('content')
             </div>

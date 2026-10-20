@@ -6,6 +6,16 @@ use App\Http\Controllers\Portal\GuruPortalController;
 use App\Http\Controllers\Portal\MuridPortalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
+
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['id', 'en'])) {
+        Session::put('locale', $locale);
+        App::setLocale($locale);
+    }
+    return redirect()->back();
+})->name('lang.switch');
 
 Route::get('/', function (Request $request) {
     if ($request->user()) {
