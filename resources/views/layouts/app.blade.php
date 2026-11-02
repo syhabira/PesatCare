@@ -118,6 +118,12 @@
                 'icon' => 'dashboard',
             ],
             [
+                'route' => 'guru.monitoring',
+                'active' => 'guru.monitoring*',
+                'label' => 'Pantau Siswa Sakit',
+                'icon' => 'users',
+            ],
+            [
                 'route' => 'guru.profile',
                 'active' => 'guru.profile',
                 'label' => 'Profil',
