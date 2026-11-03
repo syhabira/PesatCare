@@ -40,7 +40,7 @@
                     @endif
                 </div>
                 <p class="text-xs text-slate-500">
-                    Siswa • Kelas <span class="font-bold text-[#20497B]">{{ $student->schoolClass?->class_name ?? '-' }}</span> • SMK Plus PGRI Cibinong
+                    Siswa • Kelas <span class="font-bold text-[#20497B]">{{ $student->schoolClass?->class_name ?? '-' }}</span> • SMK INFORMATIKA PESAT
                 </p>
             </div>
         </div>

@@ -7,7 +7,7 @@
   td,th{border:1px solid #C8DFDB;padding:6px 8px;text-align:left} th{background:#C8DFDB;width:35%}
 </style></head><body>
 <h1>Hasil Screening Kesehatan</h1>
-<div class="muted">SMK Informatika Pesat Kota Bogor — UKS</div>
+<div class="muted">{{ config('uks.school.name', 'SMK INFORMATIKA PESAT') }} — UKS</div>
 <table>
   <tr><th>Nama</th><td>{{ $screening->student->name }}</td></tr>
   <tr><th>NIS</th><td>{{ $screening->student->nis }}</td></tr>

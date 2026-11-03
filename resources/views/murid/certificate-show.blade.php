@@ -35,7 +35,7 @@
                 </div>
                 <div>
                     <h2 class="text-base font-bold text-slate-900 mb-0">Surat Keterangan Layanan UKS</h2>
-                    <p class="text-xs text-slate-500">Unit Kesehatan Sekolah • SMK Plus PGRI Cibinong</p>
+                    <p class="text-xs text-slate-500">Unit Kesehatan Sekolah • SMK INFORMATIKA PESAT</p>
                 </div>
             </div>
 
@@ -117,7 +117,7 @@
 
             <!-- Footer Sign Notice -->
             <div class="pt-5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Dokumen ini diterbitkan sah oleh Petugas Ruang UKS SMK Plus PGRI Cibinong.</span>
+                <span>Dokumen ini diterbitkan sah oleh Petugas Ruang UKS SMK INFORMATIKA PESAT.</span>
                 <span class="font-bold text-[#20497B]">PesatCare Digital</span>
             </div>
 
