@@ -92,6 +92,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 /* ======================= GURU ======================= */
 Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(function () {
     Route::get('/dashboard', [GuruPortalController::class, 'dashboard'])->name('dashboard');
+    Route::get('/pantau-siswa', [GuruPortalController::class, 'monitoring'])->name('monitoring');
     Route::get('/profil', [GuruPortalController::class, 'profile'])->name('profile');
     Route::get('/pemeriksaan', [GuruPortalController::class, 'healthChecks'])->name('health-checks');
     Route::get('/kunjungan', [GuruPortalController::class, 'visits'])->name('visits');

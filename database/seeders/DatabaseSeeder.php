@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
         }
         $this->command->warn("Password akun admin (shifa & mela): {$password}");
 
+        // Akun demo guru & murid (password: "password")
+        $this->call(DemoAccountSeeder::class);
+
         foreach (['Demam', 'Batuk', 'Flu', 'Sakit Kepala', 'Pusing', 'Nyeri Perut', 'Luka Ringan'] as $d) {
             Disease::firstOrCreate(['name' => $d]);
         }
@@ -56,6 +59,7 @@ class DatabaseSeeder extends Seeder
         $file = database_path('data/bmi_for_age.csv');
         if (! is_file($file)) {
             $this->command->warn('database/data/bmi_for_age.csv tidak ditemukan. Indikator BMI akan tampil "Belum ada acuan".');
+
             return;
         }
 
