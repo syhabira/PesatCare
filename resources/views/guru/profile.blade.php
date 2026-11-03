@@ -8,7 +8,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-xl font-bold text-slate-900">Profil Tenaga Pendidik</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Informasi akun dan data kepegawaian Anda di lingkungan SMK Plus PGRI Cibinong.</p>
+            <p class="text-xs text-slate-500 mt-0.5">Informasi akun dan data kepegawaian Anda di lingkungan SMK INFORMATIKA PESAT.</p>
         </div>
         <div>
             <a href="{{ route('guru.dashboard') }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:text-[#4F69CC] hover:border-[#4F69CC]/40 hover:bg-[#ACE5FF]/10 text-xs font-semibold shadow-xs transition">
@@ -40,7 +40,7 @@
                     @endif
                 </div>
                 <p class="text-xs text-slate-500">
-                    Tenaga Pendidik / Guru • <span class="font-medium text-[#20497B]">{{ $teacher->unit?->unit_name ?? 'SMK Plus PGRI Cibinong' }}</span>
+                    Tenaga Pendidik / Guru • <span class="font-medium text-[#20497B]">{{ $teacher->unit?->unit_name ?? 'SMK INFORMATIKA PESAT' }}</span>
                 </p>
             </div>
         </div>
@@ -57,7 +57,7 @@
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
                     <dt class="text-slate-400 font-medium">Unit / Bidang Tugas</dt>
-                    <dd class="text-sm font-bold text-[#20497B] mt-0.5">{{ $teacher->unit?->unit_name ?: 'SMK Plus PGRI Cibinong' }}</dd>
+                    <dd class="text-sm font-bold text-[#20497B] mt-0.5">{{ $teacher->unit?->unit_name ?: 'SMK INFORMATIKA PESAT' }}</dd>
                 </div>
 
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">

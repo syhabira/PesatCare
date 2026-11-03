@@ -20,7 +20,7 @@ return [
     ],
 
     'school' => [
-        'name' => env('UKS_SCHOOL_NAME', 'SMK Informatika Pesat Kota Bogor'),
+        'name' => env('UKS_SCHOOL_NAME', 'SMK INFORMATIKA PESAT'),
         'address' => env('UKS_SCHOOL_ADDRESS'),
         'signer_name' => env('UKS_SIGNER_NAME'),
         'signer_title' => env('UKS_SIGNER_TITLE', 'Petugas UKS'),
