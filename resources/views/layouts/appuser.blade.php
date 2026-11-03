@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full">
+<html lang="id" class="h-full overflow-hidden">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,11 +32,11 @@
             border-radius: 9999px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+            background: #4F69CC;
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-[#C4E2F5] via-[#2C5EAD]/40 to-[#FAFBFD] bg-fixed text-neutral-800 antialiased selection:bg-[#1591DC] selection:text-white p-3 sm:p-6" x-data="{ mobileMenuOpen: false }">
+<body class="h-screen w-screen overflow-hidden bg-slate-100 text-slate-800 antialiased selection:bg-[#4F69CC] selection:text-white p-2.5 sm:p-4 flex flex-col" x-data="{ mobileMenuOpen: false }">
 @auth
 @php
     $user = auth()->user();
@@ -58,17 +58,17 @@
             [
                 'route' => 'guru.health-checks',
                 'active' => 'guru.health-checks*',
-                'label' => 'Pemeriksaan',
+                'label' => 'Pemeriksaan Guru',
             ],
             [
                 'route' => 'guru.visits',
                 'active' => 'guru.visits*',
-                'label' => 'Kunjungan',
+                'label' => 'Kunjungan Saya',
             ],
             [
                 'route' => 'guru.profile',
                 'active' => 'guru.profile',
-                'label' => 'Profil Saya',
+                'label' => 'Profil',
             ],
         ],
         'murid' => [
@@ -78,19 +78,19 @@
                 'label' => 'Dashboard',
             ],
             [
-                'route' => 'murid.visits',
-                'active' => 'murid.visits*',
-                'label' => 'Kunjungan',
-            ],
-            [
                 'route' => 'murid.screenings',
                 'active' => 'murid.screenings*',
-                'label' => 'Screening',
+                'label' => 'Skrining Kesehatan',
+            ],
+            [
+                'route' => 'murid.visits',
+                'active' => 'murid.visits*',
+                'label' => 'Riwayat Kunjungan',
             ],
             [
                 'route' => 'murid.certificates',
                 'active' => 'murid.certificates*',
-                'label' => 'Surat Izin',
+                'label' => 'Surat Izin UKS',
             ],
             [
                 'route' => 'murid.profile',
@@ -102,83 +102,78 @@
 
     $userMenus = $menus[$role] ?? $menus['murid'];
 @endphp
-<!-- Container Utama: Seluruh Kartu + Navbar Menggunakan bg-white/60 Menyatu -->
-<div class="min-h-[calc(100vh-3rem)] w-full bg-white/60 backdrop-blur-xl rounded-[32px] border border-white/80 shadow-2xl shadow-[#2C5EAD]/20 flex flex-col overflow-hidden relative">
+<!-- Container Utama: Fixed Frame Viewport, Navbar Statis di Atas, Hanya Main yang Scroll -->
+<div class="h-full w-full bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm flex flex-col overflow-hidden relative min-h-0">
 
     <!-- ========================================================= -->
-    <!-- TOP NAVBAR (HEADER) - TANPA BORDER BAWAH & TANPA BG BERBEDA-->
+    <!-- TOP NAVBAR (HEADER) - TETAP DI ATAS / NON-SCROLLABLE      -->
     <!-- ========================================================= -->
-    <header class="px-6 py-5 sm:px-10 flex items-center justify-between z-20 bg-transparent">
+    <header class="flex-shrink-0 px-5 py-5 sm:px-8 flex items-center justify-between z-20 border-b border-slate-100 bg-white">
         
         <!-- Left: Brand / Logo -->
         <div class="flex items-center gap-3">
             <a href="{{ route($role . '.dashboard') }}" class="flex items-center gap-2.5 group">
-                <img src="{{ asset('assets/img/pesatcare.png') }}" alt="PesatCare" class="w-40 object-contain transition-transform group-hover:scale-105">
+                <img src="{{ asset('assets/img/pesatcare.png') }}" alt="PesatCare" class="h-8 object-contain">
             </a>
         </div>
 
-        <!-- Center: Navigation Links (Pill Bar Modern) -->
-        <nav class="hidden md:flex items-center gap-1 bg-[#2C5EAD]/10 p-1.5 rounded-full border border-white/40">
+        <!-- Center: Navigation Links (Clean Segmented Tab with #20497B, #4F69CC, and #ACE5FF accents) -->
+        <nav class="hidden md:flex items-center gap-1 bg-slate-100/90 p-1 rounded-xl border border-slate-200/70">
             @foreach($userMenus as $m)
                 @php
                     $isActive = request()->routeIs($m['active']) || request()->routeIs($m['route']);
                 @endphp
                 <a href="{{ route($m['route']) }}"
-                   class="px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 {{ $isActive ? 'bg-[#2C5EAD] text-white shadow-md shadow-[#2C5EAD]/30' : 'text-slate-700 hover:text-[#2C5EAD] hover:bg-white/50' }}">
+                   class="px-4 py-1.5 rounded-lg text-xs transition-all duration-150 {{ $isActive ? 'bg-[#20497B] text-white font-semibold shadow-xs' : 'text-slate-600 hover:text-[#4F69CC] hover:bg-[#ACE5FF]/20 font-medium' }}">
                     {{ $m['label'] }}
                 </a>
             @endforeach
         </nav>
 
-        <!-- Right Side: Actions, Notifications & Profile -->
+        <!-- Right Side: Actions & Profile -->
         <div class="flex items-center gap-3">
             
-            <!-- Role Badge Pill -->
-            <div class="hidden sm:flex items-center bg-[#C4E2F5]/60 border border-white/80 px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#2C5EAD] capitalize">
-                {{ $role }} Akses
+            <!-- Role Badge Pill with #ACE5FF accent -->
+            <div class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-[#ACE5FF]/30 text-[#20497B] border border-[#ACE5FF] capitalize">
+                {{ $role }}
             </div>
-
-            <!-- Notifications Button -->
-            <button type="button"
-                    class="w-10 h-10 rounded-2xl bg-white/60 border border-white/80 hover:bg-white text-slate-700 hover:text-[#2C5EAD] shadow-sm transition flex items-center justify-center relative focus:outline-none"
-                    title="Notifikasi">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                </svg>
-                <span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-[#1591DC] ring-2 ring-white"></span>
-            </button>
 
             <!-- User Profile Avatar & Dropdown Menu -->
             <div class="relative flex items-center" x-data="{ profileOpen: false }">
-                <button @click="profileOpen = !profileOpen" class="flex items-center gap-2.5 focus:outline-none group">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#2C5EAD] to-[#1591DC] text-white font-bold text-sm flex items-center justify-center shadow-md shadow-[#2C5EAD]/30 ring-2 ring-white group-hover:scale-105 transition">
+                <button @click="profileOpen = !profileOpen" class="flex items-center gap-2 focus:outline-none group cursor-pointer">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#20497B] to-[#4F69CC] text-white font-bold text-xs flex items-center justify-center shadow-xs ring-2 ring-[#ACE5FF]/50">
                         {{ strtoupper(substr($user->name, 0, 1)) }}
                     </div>
+                    <span class="hidden lg:block text-xs font-semibold text-slate-700 group-hover:text-[#4F69CC] transition-colors">{{ strtok($user->name, ' ') }}</span>
+                    <svg class="w-3.5 h-3.5 text-slate-400 group-hover:text-[#4F69CC] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
                 </button>
 
                 <!-- Dropdown Card -->
                 <div x-show="profileOpen" 
                      @click.away="profileOpen = false" 
                      x-cloak
-                     class="absolute right-0 top-12 w-52 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/80 py-2.5 z-50 text-xs">
-                    <div class="px-4 py-2 border-b border-slate-100">
-                        <p class="font-bold text-slate-800 truncate">{{ $user->name }}</p>
-                        <p class="text-[#1591DC] capitalize font-medium">{{ $role }}</p>
+                     class="absolute right-0 top-10 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-1.5 z-50 text-xs">
+                    <div class="px-3.5 py-2 border-b border-slate-100 bg-slate-50/50">
+                        <p class="font-semibold text-slate-900 truncate">{{ $user->name }}</p>
+                        <p class="text-[#4F69CC] capitalize text-[11px] font-medium">{{ $role }}</p>
                     </div>
-                    <a href="{{ route($role . '.profile') }}" class="block px-4 py-2.5 text-slate-700 hover:bg-[#C4E2F5]/40 hover:text-[#2C5EAD] font-medium transition">Profil Saya</a>
+                    <a href="{{ route($role . '.profile') }}" class="block px-3.5 py-2 text-slate-700 hover:bg-[#ACE5FF]/20 hover:text-[#20497B] font-medium transition">
+                        Profil Saya
+                    </a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="w-full text-left px-4 py-2.5 text-rose-600 hover:bg-rose-50 font-medium transition">
-                            Keluar / Log Out
+                        <button type="submit" class="w-full text-left px-3.5 py-2 text-rose-600 hover:bg-rose-50 font-medium transition cursor-pointer">
+                            Keluar
                         </button>
                     </form>
                 </div>
             </div>
 
             <!-- Mobile Hamburger Toggle Button -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-xl bg-white/80 border border-white text-slate-700 hover:bg-[#C4E2F5]/40 hover:text-[#2C5EAD] focus:outline-none transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 focus:outline-none transition cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
@@ -186,35 +181,35 @@
         </div>
     </header>
 
-    <!-- Mobile Navigation Drawer -->
-    <div x-show="mobileMenuOpen" x-cloak class="md:hidden bg-white/90 backdrop-blur-md border-b border-white/60 px-6 py-4 space-y-1.5 z-30">
+    <!-- Mobile Navigation Drawer (Collapsible) -->
+    <div x-show="mobileMenuOpen" x-cloak class="flex-shrink-0 md:hidden bg-slate-50 border-b border-slate-200 px-4 py-3 space-y-1 z-30">
         @foreach($userMenus as $m)
             @php
                 $isActive = request()->routeIs($m['active']) || request()->routeIs($m['route']);
             @endphp
             <a href="{{ route($m['route']) }}"
-               class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition {{ $isActive ? 'bg-[#2C5EAD] text-white shadow-sm' : 'text-slate-700 hover:bg-[#C4E2F5]/40 hover:text-[#2C5EAD]' }}">
+               class="block px-3 py-2 rounded-lg text-xs font-semibold transition {{ $isActive ? 'bg-[#20497B] text-white shadow-xs' : 'text-slate-700 hover:bg-[#ACE5FF]/20 hover:text-[#20497B]' }}">
                 {{ $m['label'] }}
             </a>
         @endforeach
     </div>
 
     <!-- ========================================================= -->
-    <!-- MAIN WORKSPACE CONTENT AREA                               -->
+    <!-- MAIN WORKSPACE CONTENT AREA - HANYA INI YANG SCROLLABLE   -->
     <!-- ========================================================= -->
-    <main class="flex-1 p-6 sm:p-10 overflow-y-auto bg-transparent">
+    <main class="flex-1 min-h-0 overflow-y-auto p-4 sm:p-7 bg-slate-50/50">
 
         <!-- Flash Notification: Success -->
         @if(session('success'))
-            <div class="mb-6 p-4 rounded-2xl bg-emerald-50/90 backdrop-blur-md border border-emerald-200/80 text-emerald-800 text-xs font-semibold flex items-center gap-3 shadow-sm">
-                <div class="w-6 h-6 rounded-lg bg-emerald-500 text-white flex items-center justify-center flex-shrink-0">✓</div>
+            <div class="mb-5 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium flex items-center gap-2.5">
+                <div class="w-5 h-5 rounded-md bg-emerald-500 text-white flex items-center justify-center text-[10px] flex-shrink-0 font-bold">✓</div>
                 <span>{{ session('success') }}</span>
             </div>
         @endif
 
         <!-- Flash Notification: Errors -->
         @if($errors->any())
-            <div class="mb-6 p-4 rounded-2xl bg-rose-50/90 backdrop-blur-md border border-rose-200/80 text-rose-800 text-xs space-y-1 shadow-sm">
+            <div class="mb-5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs space-y-1">
                 <p class="font-bold">Mohon periksa kembali input Anda:</p>
                 <ul class="list-disc list-inside pl-1 space-y-0.5">
                     @foreach($errors->all() as $e)
@@ -225,7 +220,7 @@
         @endif
 
         <!-- Child Blade View Content Container -->
-        <div class="max-w-7xl mx-auto space-y-6">
+        <div class="max-w-7xl mx-auto space-y-6 pb-6">
             @yield('content')
         </div>
 
@@ -235,7 +230,7 @@
 @endauth
 
 @guest
-    <div class="min-h-screen bg-gradient-to-br from-[#2C5EAD] via-[#C4E2F5] to-[#FAFBFD] p-6 flex flex-col items-center justify-center">
+    <div class="h-screen w-screen overflow-y-auto bg-slate-100 p-4 flex flex-col items-center justify-center">
         @yield('content')
     </div>
 @endguest
